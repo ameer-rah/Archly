@@ -1,0 +1,10 @@
+{
+  "description": "Connects architecture students with local firms for internships and contract work through a responsive platform optimized for mobile and desktop.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
