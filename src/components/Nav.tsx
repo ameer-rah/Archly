@@ -8,7 +8,7 @@ export function Nav() {
   const links = [
     { to: '/projects', label: 'Browse Projects' },
     { to: '/join', label: 'For Students' },
-    { to: '/#firms', label: 'For Firms' },
+    { to: '/firms', label: 'For Firms' },
   ]
 
   return (
@@ -53,7 +53,7 @@ export function Nav() {
                 fontFamily: 'var(--font-body)',
               }}
             >
-              SL
+              AR
             </span>
           </div>
           <span
@@ -66,7 +66,7 @@ export function Nav() {
               color: 'var(--foreground)',
             }}
           >
-            Studio Line
+            Archly
           </span>
         </Link>
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 const stats = [
   { value: '240+', label: 'Open Projects' },
   { value: '180+', label: 'Architecture Firms' },
-  { value: '3,400', label: 'Students Placed' },
+  { value: '3,400+', label: 'Students Placed' },
   { value: '94%', label: 'Offer Rate' },
 ]
 
@@ -35,21 +35,21 @@ const testimonials = [
     quote:
       "I got placed on a community center project in my second year. By graduation I had three built projects in my portfolio.",
     name: 'Amara Chen',
-    school: 'University of Toronto, M.Arch II',
+    school: 'CCNY Spitzer School of Architecture, M.Arch II',
     photo: 'https://images.unsplash.com/photo-1494790108755-2616b612b5ab?w=80&h=80&fit=crop&auto=format',
   },
   {
     quote:
-      "Studio Line saved us weeks of recruiting. We posted a brief on Monday and had shortlisted candidates by Thursday.",
+      "Archly saved us weeks of recruiting. We posted a brief on Monday and had shortlisted candidates by Thursday.",
     name: 'James Thorpe',
-    school: 'Principal, Thorpe Atelier',
+    school: 'Principal, Marvel Architects, Brooklyn',
     photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&auto=format',
   },
   {
     quote:
       "The quality of students on the platform is genuinely impressive. They come in knowing our projects and ready to contribute.",
     name: 'Sofia Reyes',
-    school: 'Studio Director, Reyes + Park',
+    school: 'Studio Director, Dattner Architects, Manhattan',
     photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&auto=format',
   },
 ]
@@ -58,7 +58,7 @@ const featuredProjects = [
   {
     id: '1',
     title: 'Community Center Redesign',
-    firm: 'Thornton Architects',
+    firm: 'Hollwich Kushner',
     type: 'Internship',
     duration: '3 months',
     pay: '$2,800/mo',
@@ -67,7 +67,7 @@ const featuredProjects = [
   {
     id: '2',
     title: 'Mixed-Use Development Package',
-    firm: 'Park & Associates',
+    firm: 'Marvel Architects',
     type: 'Contract',
     duration: '6 weeks',
     pay: '$4,200',
@@ -76,7 +76,7 @@ const featuredProjects = [
   {
     id: '3',
     title: 'Adaptive Reuse — Warehouse District',
-    firm: 'Reyes Studio',
+    firm: 'Studio Gang NY',
     type: 'Internship',
     duration: '4 months',
     pay: '$2,500/mo',
@@ -163,8 +163,8 @@ export function Home() {
                 maxWidth: 520,
               }}
             >
-              Studio Line connects architecture students with local firms offering real internships and contract
-              work — not coffee runs and CAD cleanup, but meaningful contributions to built projects.
+              Archly connects CUNY architecture students with NYC firms offering real internships and contracts
+              — not coffee runs and CAD cleanup, but meaningful contributions to built projects across all five boroughs.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Link
@@ -706,7 +706,7 @@ export function Home() {
             </div>
             <div style={{ marginTop: 40 }}>
               <a
-                href="mailto:firms@studioline.app"
+                href="/firms"
                 style={{
                   display: 'inline-block',
                   padding: '14px 28px',
@@ -794,15 +794,15 @@ export function Home() {
               }}
             >
               <span style={{ color: 'var(--background)', fontWeight: 700, fontSize: 9, letterSpacing: '0.05em' }}>
-                SL
+                AR
               </span>
             </div>
             <span style={{ fontSize: 13, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              Studio Line
+              Archly
             </span>
           </div>
           <p style={{ fontSize: 12, color: 'var(--muted-foreground)', margin: 0 }}>
-            © 2025 Studio Line Inc. · Connecting architecture students with real work.
+            © 2025 Archly Inc. · Connecting architecture students with real work.
           </p>
           <div style={{ display: 'flex', gap: 24 }}>
             {['Privacy', 'Terms', 'Contact'].map((item) => (

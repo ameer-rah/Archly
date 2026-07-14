@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom'
 import { projects } from '../data/projects'
 
 const allTypes = ['All', 'Internship', 'Contract']
-const allLocations = ['All Cities', 'Toronto, ON', 'Vancouver, BC', 'Ottawa, ON', 'Montreal, QC', 'Calgary, AB']
+const allLocations = ['All Boroughs', 'Manhattan', 'Brooklyn', 'Queens', 'The Bronx', 'Staten Island']
 const allSoftware = ['Revit', 'AutoCAD', 'Rhino', 'Grasshopper', 'SketchUp', 'Lumion', 'Enscape', 'ArcGIS', 'Adobe CC']
 
 export function Projects() {
   const [typeFilter, setTypeFilter] = useState('All')
-  const [locationFilter, setLocationFilter] = useState('All Cities')
+  const [locationFilter, setLocationFilter] = useState('All Boroughs')
   const [softwareFilter, setSoftwareFilter] = useState<string[]>([])
   const [search, setSearch] = useState('')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const filtered = projects.filter((p) => {
     if (typeFilter !== 'All' && p.type !== typeFilter) return false
-    if (locationFilter !== 'All Cities' && p.location !== locationFilter) return false
+    if (locationFilter !== 'All Boroughs' && p.location !== locationFilter) return false
     if (softwareFilter.length > 0 && !softwareFilter.some((s) => p.software.includes(s))) return false
     if (search && !p.title.toLowerCase().includes(search.toLowerCase()) && !p.firm.toLowerCase().includes(search.toLowerCase())) return false
     return true
