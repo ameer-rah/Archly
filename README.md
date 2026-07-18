@@ -1,7 +1,5 @@
 ## archly
+---
 
-### frontend - desktop 
-
-### frontend - mobile 
-
-### backend
+### to do's
+- 
