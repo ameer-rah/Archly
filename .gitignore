@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+*.xlsx
+# Node.js
+node_modules/
+dist/
+coverage/
+*.log
+
+# Cloudflare
+.wrangler/
+.dev.vars
