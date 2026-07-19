@@ -1,0 +1,45 @@
+:root {
+  --background: #faf6ec;
+  --foreground: #16233a;
+  --card: #efe7d3;
+  --secondary: #e9dfc5;
+  --muted: #e1d6bb;
+  --muted-foreground: #726b57;
+  --accent: #2c5490;
+  --accent-hover: #1e3b63;
+  --border: #d8cba8;
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  border-radius: var(--radius-sm);
+}
+
+a {
+  color: inherit;
+}
+
+.card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22, 35, 58, 0.08);
+  border-color: var(--accent);
+}
