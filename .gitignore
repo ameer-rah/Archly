@@ -2,12 +2,13 @@
 .venv/
 __pycache__/
 *.xlsx
-# Node.js
+
 node_modules/
 dist/
 coverage/
+.turbo/
 *.log
+.DS_Store
 
-# Cloudflare
 .wrangler/
 .dev.vars
