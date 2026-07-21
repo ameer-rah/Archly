@@ -1,7 +1,6 @@
-### to do's
+## to do's
 
 **Frontend — apps/web (all 17 pages, from scratch, matching Figma + dandy.com direction)**
-- [ ] Landing Page
 - [ ] For Students
 - [ ] Firms (marketing)
 - [ ] Browse Projects
