@@ -1,12 +1,6 @@
 # Archly — Full-Stack Architecture (Web + Mobile)
 
 > **This is the committed build plan**, not a menu of options — Cloudflare end-to-end, decided. Covers system design, every endpoint, hosting, and what actually gets built first. See [[archly]] for the company overview/business model and [[archly - todo and open questions]] for the original CUNY-auth research this still relies on. See [[#0. Scope — Architecture + Adjacent Majors]] for the resolved discipline taxonomy.
-
-**pages in this folder:**
-- [[archly]] — company overview + current frontend (React + Vite, already built)
-- [[archly - todo and open questions]] — CUNY auth research, pilot program strategy
-- [[archly system design]] — this page — the committed system design
-
 ---
 
 ## 0. Scope — Architecture + Adjacent Majors

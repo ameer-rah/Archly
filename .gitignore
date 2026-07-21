@@ -2,3 +2,8 @@
 .venv/
 __pycache__/
 *.xlsx
+node_modules/
+dist/
+.turbo/
+*.log
+.DS_Store
