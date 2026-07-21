@@ -1,32 +1,41 @@
-# React + TypeScript + Vite
+# @archly/web
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+The Archly marketing/web frontend — React 19 + Vite + TypeScript.
 
-Currently, two official plugins are available:
+## Running locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+From the repo root (pnpm workspace):
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+pnpm install
+pnpm --filter @archly/web dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Or from this directory:
+
+```bash
+pnpm dev
+```
+
+## Structure
+
+```
+src/
+├── components/       shared across all pages (NavBar, Footer, Reveal, TiltCard, useScrollY)
+└── pages/
+    └── Home/         landing page — sections, icons, and styles specific to it
+```
+
+Each new page gets its own folder under `pages/`, following the same
+pattern as `pages/Home/`. Anything used by more than one page belongs
+in `components/` instead.
+
+Design tokens (colors, fonts, base resets) live in `src/index.css` and
+are loaded once in `main.tsx`.
+
+## Scripts
+
+- `pnpm dev` — start the Vite dev server
+- `pnpm build` — type-check (`tsc -b`) and build for production
+- `pnpm typecheck` — type-check only
+- `pnpm lint` — run Oxlint
