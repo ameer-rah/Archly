@@ -17,7 +17,7 @@ export default function FinalCTA() {
         <p className="eyebrow eyebrow-light">BE PART OF THE FUTURE</p>
         <h2>Join the movement. Let's build the future of architecture together.</h2>
         <div className="final-cta-buttons">
-          <button type="button" className="btn btn-primary">
+          <button type="button" className="btn btn-sand">
             Join the Pilot Program
           </button>
           <button type="button" className="btn btn-outline-light">

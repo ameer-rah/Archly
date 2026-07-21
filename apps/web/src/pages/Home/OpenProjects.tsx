@@ -23,7 +23,7 @@ export default function OpenProjects() {
       <Reveal delay={100} className="empty-state">
         <h3>No projects posted yet</h3>
         <p>
-          Archly is a two-sided marketplace — NYC architecture firms create
+          Archly is a two-sided marketplace: NYC architecture firms create
           an account and post their own project listings. Once firms join,
           open positions will appear here.
         </p>

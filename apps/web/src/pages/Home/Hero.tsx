@@ -1,13 +1,11 @@
 import { useRef, useState } from "react";
 import useScrollY from "../../components/useScrollY";
 import TiltCard from "../../components/TiltCard";
-import StudentIcon from "./icons/StudentIcon";
-import FirmIcon from "./icons/FirmIcon";
 
 /** CUNY program chips shown under the hero action cards. */
 const CHIPS = [
   "Spitzer School of Architecture · CCNY",
-  "City Tech — Architectural Technology",
+  "City Tech · Architectural Technology",
   "Other CUNY Architecture Programs",
 ];
 
@@ -23,8 +21,8 @@ const CHIPS = [
  *   group upward (capped at 90px) as the user scrolls past the hero, so
  *   the visual recedes rather than scrolling flatly with the page.
  *
- * The two action cards are `TiltCard`s (cursor-tilt on hover) wrapping
- * a `StudentIcon`/`FirmIcon`; their "Sign Up" buttons are inert.
+ * The two action cards are `TiltCard`s (cursor-tilt on hover); their
+ * "Sign Up" buttons are inert.
  */
 export default function Hero() {
   const visualRef = useRef<HTMLDivElement>(null);
@@ -58,16 +56,13 @@ export default function Hero() {
         </h1>
         <p className="hero-copy reveal reveal-visible" style={{ transitionDelay: "80ms" }}>
           Archly connects CUNY architecture students with NYC firms offering
-          real internships and contracts — not coffee runs and CAD cleanup,
+          real internships and contracts: not coffee runs and CAD cleanup,
           but meaningful contributions to built projects across all five
           boroughs.
         </p>
 
         <div className="hero-cards reveal reveal-visible" style={{ transitionDelay: "160ms" }}>
           <TiltCard className="action-card">
-            <div className="action-card-icon">
-              <StudentIcon />
-            </div>
             <h3>Join the Pilot Program</h3>
             <p>Students, be part of our early launch in NYC.</p>
             <button type="button" className="btn btn-primary btn-sm">
@@ -75,9 +70,6 @@ export default function Hero() {
             </button>
           </TiltCard>
           <TiltCard className="action-card">
-            <div className="action-card-icon">
-              <FirmIcon />
-            </div>
             <h3>Are You a Firm?</h3>
             <p>Post real projects and start hiring CUNY talent today.</p>
             <button type="button" className="btn btn-outline btn-sm">
