@@ -1,5 +1,20 @@
 ## to do's
 
+### Next up (immediate plan)
+---
+Where things actually stand: `packages/db`'s schema + migrations are real
+and correct (typecheck/build/lint all clean), but nothing beyond that
+exists yet — no live database, no `apps/api` (still a literal empty
+folder), no WorkOS/Google credentials. Every frontend form (Waitlist,
+Firm Signup) is still a local-only mock with nothing to call. Concrete
+next sequence, in order:
+
+1. [ ] Get the company email + company contacts (see "important" below) — blocks both Cloudflare deployment and Google/WorkOS API credentials, so this unblocks everything after it.
+2. [ ] Provision a real Neon Postgres instance, put its connection string in `packages/db/.env` (never commit it), run `pnpm --filter @archly/db db:migrate` to actually create the tables. This part has no other blockers — it can happen before step 1 if a personal/temporary Neon project is used.
+3. [ ] Scaffold `apps/api` — Hono on Cloudflare Workers, Hyperdrive connection to Neon, `packages/db` already provides everything the routes need. Start with a health-check route + one real table read (e.g. `GET /schools`) to prove the whole chain (Workers → Hyperdrive → Neon → Drizzle) actually works end to end.
+4. [ ] Wire up WorkOS AuthKit (Google OAuth first, CUNY email verification next) once credentials exist from step 1.
+5. [ ] Wire the first real endpoint to an existing frontend form instead of its local mock — `POST /waitlist` (system-design.md's public, Turnstile-protected endpoint) is the simplest real target since the Waitlist page's fields already match `waitlist_signups` exactly. Firm Signup's `POST /firms` is the next natural target after that, since that page's fields already match the real `firms` table too.
+
 **Frontend — apps/web (17 pages total, from scratch, matching Figma + dandy.com/Handshake direction)**
 - [ ] For Students - in progress w/ tahi
 - [ ] Project Detail
@@ -28,7 +43,7 @@ blue buttons (`btn-primary`/`btn-outline`/`btn-ghost`), navy/blue
 backgrounds get sand-colored buttons (`btn-sand`/`btn-outline-light`).
 
 **Backend / infra (per system-design.md build order, after frontend or in parallel)**
-- [ ] `packages/db` — Drizzle schema + migrations against Neon. Note: PR #1 (`feat(db): add core PostgreSQL schema and initial migration`, branch `backend/core-database-schema`) did this work but was **closed without merging** — it never landed on `main`, so this is still effectively not done. Worth deciding whether to revive that branch or redo it before starting `apps/api`.
+- [x] `packages/db` — Drizzle schema + migrations against Neon. PR #1 was originally closed without merging, but the schema has since actually landed on `main` (users, students, schools, firms, firm_members, job_postings, applications) with clean migrations. Fixed post-merge: a duplicate/ambiguous `student_discipline` enum value (`urban_planning` alongside `urban_design`, not matching system-design.md's documented taxonomy) via a new migration, `drizzle.config.ts` being silently excluded from the TS project (`tsconfig.json`/`tsconfig.build.json` split), and the README's npm-vs-pnpm command mismatch. Still no live Neon instance connected — schema is correct but unproven against a real database.
 - [ ] `apps/api` skeleton — Hono, Hyperdrive connection, WorkOS auth middleware
 - [ ] Auth end-to-end (Google/LinkedIn login + CUNY email verification)
 - [ ] Students + Firms CRUD, file uploads to R2

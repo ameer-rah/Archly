@@ -31,7 +31,7 @@ export default function OpenProjects() {
           open positions will appear here.
         </p>
         <Link to="/firm-signup" className="btn btn-primary">
-          Are you a firm? Post the first project →
+          Are you a firm? Post the first project
         </Link>
       </Reveal>
     </section>

@@ -29,16 +29,20 @@
 /* ---------- hero ---------- */
 
 .hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  position: relative;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
   padding: 176px 80px 64px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 100vh;
 }
 
 .hero-title {
@@ -107,34 +111,49 @@
   flex-wrap: wrap;
 }
 
+/* Positioned absolutely (not a grid column) so it can be wider than
+   half the hero and bleed in toward the text side, like the reference
+   composition — `.hero-content` above it carries `z-index: 1` so text
+   stays on top of the overlap. */
 .hero-visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 32%;
   overflow: hidden;
 }
 
-.hero-visual-group {
-  transition: transform 0.1s linear;
+/* Fades the photo's own left and bottom edges to transparent, instead
+   of a hard rectangular cutoff — the sand `.hero` background (its
+   parent) shows through underneath, so the image blends into both the
+   left text column and the section below on its own. This is why the
+   old navy-specific 3-stop fade at the top of `.how-it-works` is gone:
+   the image no longer ends in solid navy for that fade to key off of,
+   it fades itself out before ever reaching that boundary.
+   `animation` is a slow continuous Ken Burns zoom for a subtle sense
+   of motion — `transform-origin` biases it toward the top-right so the
+   building doesn't zoom "off" the visible/unfaded portion of the frame. */
+.hero-visual-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: 70% 30%;
+  animation: ken-burns-zoom 20s ease-in-out infinite alternate;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 18%),
+    linear-gradient(to bottom, black 82%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent, black 18%),
+    linear-gradient(to bottom, black 82%, transparent);
+  mask-composite: intersect;
 }
 
-.hero-visual-square {
-  width: 300px;
-  height: 300px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease-out;
-}
-
-.hero-visual-circle {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  transition: transform 0.2s ease-out;
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual-image {
+    animation: none;
+  }
 }
 
 /* ---------- how it works ---------- */
@@ -153,25 +172,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 50%;
-  height: 140px;
-  background: linear-gradient(to bottom, var(--background), transparent);
-  pointer-events: none;
-}
-
-.how-it-works::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
   right: 0;
   height: 140px;
-  background: linear-gradient(
-    to bottom,
-    var(--foreground) 0%,
-    var(--accent) 45%,
-    transparent 100%
-  );
+  background: linear-gradient(to bottom, var(--background), transparent);
   pointer-events: none;
 }
 

@@ -2,20 +2,18 @@
    (navy blueprint hero -> card grid -> navy CTA band) in favor of an
    editorial layout — but it still keeps the sitewide paper-grid
    texture on every section, and a fade wherever the background color
-   actually changes. Hero/editorial/media-break/CTA use the tan
-   `--secondary` tone; Values uses the paler `--background` tone —
-   the reverse of ForFirms/Waitlist's usual rhythm, by request. */
+   actually changes. Hero/editorial/CTA use the tan `--secondary`
+   tone; Values uses the paler `--background` tone — the reverse of
+   ForFirms/Waitlist's usual rhythm, by request. */
 
 .about-hero,
 .about-editorial,
-.about-media-break,
 .about-cta {
   background-color: var(--secondary);
 }
 
 .about-hero,
 .about-editorial,
-.about-media-break,
 .about-values,
 .about-cta {
   background-image: repeating-linear-gradient(
@@ -65,42 +63,30 @@
 }
 
 .about-hero-media {
+  position: relative;
   max-width: 1000px;
-  margin: 0 auto;
-}
-
-/* ---------- media placeholder (reused for the hero slot + the mid-page break) ---------- */
-
-.about-media-slot {
-  aspect-ratio: 4 / 3;
-  border-radius: var(--radius);
-  border: 1px dashed var(--border);
-  background: var(--card);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: var(--muted-foreground);
-  text-align: center;
-  padding: 24px;
-}
-
-.about-media-slot p {
-  font-size: 13px;
-  margin: 0;
-  max-width: 220px;
-}
-
-.about-media-slot-wide {
   aspect-ratio: 21 / 9;
-  max-width: 1000px;
   margin: 0 auto;
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
-.about-media-break {
-  padding-top: 40px;
-  padding-bottom: 40px;
+.about-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: 50% 35%;
+  animation: ken-burns-zoom 20s ease-in-out infinite alternate;
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent);
+  mask-image: linear-gradient(to bottom, black 70%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-hero-image {
+    animation: none;
+  }
 }
 
 /* ---------- editorial text rows ---------- */
@@ -112,10 +98,16 @@
 
 .about-editorial-row {
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 160px 1fr 180px;
+  align-items: center;
   gap: 48px;
   padding: 48px 0;
   border-top: 1px solid var(--border);
+}
+
+.about-editorial-photo {
+  aspect-ratio: 4 / 3;
+  justify-self: center;
 }
 
 .about-editorial-label {
@@ -256,9 +248,10 @@
 }
 
 .about-cta-inner h2 {
-  font-size: 32px;
+  font-size: 44px;
   font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.1;
   margin: 0 0 28px;
 }
 
@@ -294,6 +287,11 @@
 @media (max-width: 900px) {
   .about-editorial-row {
     grid-template-columns: 1fr;
+  }
+
+  .about-editorial-photo {
+    width: 160px;
+    justify-self: start;
   }
 
   .about-values-row {

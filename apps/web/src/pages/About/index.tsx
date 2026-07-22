@@ -3,7 +3,6 @@ import Footer from "../../components/Footer";
 import PageTransition from "../../components/PageTransition";
 import Hero from "./Hero";
 import Mission from "./Mission";
-import MediaBreak from "./MediaBreak";
 import Values from "./Values";
 import CTA from "./CTA";
 import "./about.css";
@@ -29,7 +28,6 @@ export default function About() {
         <main>
           <Hero />
           <Mission />
-          <MediaBreak />
           <Values />
           <CTA />
         </main>
