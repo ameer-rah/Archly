@@ -1,5 +1,6 @@
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
+import PageTransition from "../../components/PageTransition";
 import Hero from "./Hero";
 import HowItWorks from "./HowItWorks";
 import OurJourney from "./OurJourney";
@@ -19,19 +20,23 @@ import "./landing.css";
  *
  * `NavBar` and `Footer` are shared site chrome (used by every page, not
  * just this one) so they live in `components/`, not here — everything
- * else in this folder is specific to the landing page.
+ * else in this folder is specific to the landing page. `PageTransition`
+ * wraps just `<main>` (not the nav/footer) so only the page content
+ * fades in on route change, not the persistent chrome around it.
  */
 export default function Home() {
   return (
     <>
       <NavBar />
-      <main>
-        <Hero />
-        <HowItWorks />
-        <OurJourney />
-        <OpenProjects />
-        <FinalCTA />
-      </main>
+      <PageTransition>
+        <main>
+          <Hero />
+          <HowItWorks />
+          <OurJourney />
+          <OpenProjects />
+          <FinalCTA />
+        </main>
+      </PageTransition>
       <Footer />
     </>
   );

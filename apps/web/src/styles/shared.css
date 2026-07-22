@@ -1,0 +1,476 @@
+/* Cross-page primitives: buttons, labels, blueprint texture, reveal animation,
+   and the site-wide nav/footer chrome. Page-specific styles (hero layout,
+   section-specific cards, etc.) stay in that page's own stylesheet. */
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-fade-in {
+  animation: page-fade-in 0.4s ease;
+}
+
+/* `TiltCard` always wraps its tilting element in this static-perspective
+   frame (see `components/TiltCard.tsx`) instead of combining
+   `perspective(…)` with the rotation in one JS-driven transform on the
+   same element — that combined form is a known Gecko-family trigger
+   (Firefox, Zen, Brave; not reproducible in plain Chromium) for flat
+   children (buttons, text) going unpainted after the tilt animates
+   back to rest on mouseleave. The frame itself needs no size/layout
+   styling — each page's `<Class>.tilt-card` rule (or a per-usage
+   override) still controls actual card sizing; the frame just needs
+   to stretch to match, which flex/grid parents do by default. */
+.tilt-card-frame {
+  perspective: 800px;
+}
+
+/* Belt-and-suspenders, kept alongside the actual fix (each page's
+   `<Class>.tilt-card` rule no longer sets `transform-style:
+   preserve-3d` — that was the real trigger for the Gecko bug above,
+   and none of these cards have children needing independent 3D depth,
+   so dropping it removes the bug class entirely rather than just
+   mitigating it). Without `backface-visibility: visible`, a flat child
+   can still be treated as facing away from the camera at some tilt
+   angles; `will-change: transform` keeps the compositor layer stably
+   promoted instead of being torn down/recreated on every enter/leave. */
+.tilt-card {
+  backface-visibility: visible;
+  will-change: transform;
+}
+
+.blueprint-grid {
+  position: relative;
+  background-color: var(--foreground);
+  background-image: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    );
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 16px;
+}
+
+.eyebrow-light {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.accent-italic {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.section {
+  padding: 100px 80px;
+}
+
+.section-head.center,
+.center {
+  text-align: center;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: default;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+/* Secondary button for sand/white backgrounds: blue border + text. */
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-outline:hover {
+  background: var(--secondary);
+}
+
+/* Ghost button for sand/white backgrounds (e.g. nav "Log In"): blue text. */
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+}
+
+.btn-ghost:hover {
+  background: var(--secondary);
+}
+
+/* Filled primary button for navy/blue backgrounds: sand fill, navy text. */
+.btn-sand {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.btn-sand:hover {
+  background: var(--secondary);
+}
+
+/* Secondary/outline button for navy/blue backgrounds: sand border + text. */
+.btn-outline-light {
+  background: transparent;
+  color: var(--background);
+  border-color: rgba(250, 246, 236, 0.4);
+}
+
+.btn-outline-light:hover {
+  border-color: var(--background);
+}
+
+.btn-sm {
+  padding: 9px 14px;
+  font-size: 13px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--secondary);
+  color: var(--muted-foreground);
+}
+
+.chip {
+  background: var(--secondary);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+/* ---------- navbar ---------- */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(250, 246, 236, 0.6);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-scrolled {
+  background: rgba(250, 246, 236, 0.9);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--border);
+  box-shadow: 0 4px 20px rgba(22, 35, 58, 0.05);
+}
+
+.navbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 16px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.navbar-logo {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 32px;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-link {
+  font-size: 14px;
+  color: var(--muted-foreground);
+  cursor: default;
+  transition: color 0.15s ease;
+}
+
+a.navbar-link {
+  cursor: pointer;
+}
+
+.navbar-link:hover {
+  color: var(--foreground);
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  position: relative;
+  padding: 64px 80px 32px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  background-color: var(--foreground);
+  background-image: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    );
+}
+
+.footer.footer-blend {
+  padding-top: 140px;
+}
+
+.footer.footer-blend > * {
+  position: relative;
+}
+
+.footer.footer-blend::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    var(--accent) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 64px;
+  padding-bottom: 48px;
+}
+
+.footer-brand-block {
+  max-width: 280px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.footer-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+.footer-tagline {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.footer-columns {
+  display: flex;
+  gap: 56px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col-title {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer-link {
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-link-inert {
+  cursor: default;
+}
+
+.footer-link-inert:hover {
+  color: inherit;
+}
+
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .footer-top {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-columns {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+}
+
+/* ---------- form fields (shared across contact/waitlist/signup forms) ---------- */
+
+.ff-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ff-field {
+  margin-bottom: 20px;
+}
+
+.ff-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+}
+
+.ff-field-box {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--foreground);
+  box-sizing: border-box;
+}
+
+.ff-field-textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* ---------- numbered process/step cards (shared across process/next-steps sections) ---------- */
+
+.ff-process-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 22px;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.ff-process-card:hover {
+  box-shadow: 0 20px 40px rgba(22, 35, 58, 0.14);
+  border-color: var(--accent);
+}
+
+.ff-process-n {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.ff-process-card h3 {
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+.ff-process-card p {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+}

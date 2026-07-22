@@ -17,7 +17,7 @@ const STEPS = [
   },
   {
     title: "Start contributing",
-    copy: "Get placed on real projects with real deadlines — and build a portfolio that proves it.",
+    copy: "Get placed on real projects with real deadlines, and build a portfolio that proves it.",
   },
 ];
 

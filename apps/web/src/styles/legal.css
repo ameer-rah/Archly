@@ -1,0 +1,112 @@
+/* Shared styles for LegalLayout (Privacy, Terms). */
+
+.legal-body {
+  background-image: repeating-linear-gradient(
+      to right,
+      rgba(22, 35, 58, 0.05) 0 1px,
+      transparent 1px 45px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(22, 35, 58, 0.05) 0 1px,
+      transparent 1px 45px
+    );
+}
+
+.legal-hero {
+  padding: 200px 80px 100px;
+  text-align: center;
+}
+
+.legal-hero-title {
+  color: #fff;
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+
+.legal-hero-updated {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  margin: 0;
+}
+
+.legal-body {
+  position: relative;
+  background-color: var(--background);
+  padding-top: 200px;
+}
+
+.legal-body > * {
+  position: relative;
+}
+
+.legal-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, var(--foreground), transparent);
+  pointer-events: none;
+}
+
+.legal-body-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.legal-body-inner p {
+  color: var(--muted-foreground);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+
+.legal-body-inner h2 {
+  color: var(--foreground);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 48px 0 16px;
+}
+
+.legal-body-inner h2:first-child {
+  margin-top: 0;
+}
+
+.legal-body-inner ul {
+  margin: 0 0 20px;
+  padding-left: 20px;
+  color: var(--muted-foreground);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.legal-body-inner li {
+  margin-bottom: 8px;
+}
+
+.legal-body-inner li ul {
+  margin: 8px 0 0;
+}
+
+.legal-body-inner a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.legal-note {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 0 0 40px;
+}
+
+.legal-note p {
+  margin: 0;
+  font-size: 14px;
+}

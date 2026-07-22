@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Reveal from "../../components/Reveal";
 
 /**
@@ -17,19 +18,21 @@ export default function OpenProjects() {
           <p className="eyebrow">OPEN PROJECTS</p>
           <h2>Browse Open Projects</h2>
         </div>
-        <span className="link-arrow">View all projects →</span>
+        <Link to="/browse-projects" className="link-arrow">
+          View all projects →
+        </Link>
       </Reveal>
 
       <Reveal delay={100} className="empty-state">
         <h3>No projects posted yet</h3>
         <p>
-          Archly is a two-sided marketplace — NYC architecture firms create
+          Archly is a two-sided marketplace: NYC architecture firms create
           an account and post their own project listings. Once firms join,
           open positions will appear here.
         </p>
-        <button type="button" className="btn btn-primary">
+        <Link to="/firm-signup" className="btn btn-primary">
           Are you a firm? Post the first project →
-        </button>
+        </Link>
       </Reveal>
     </section>
   );
