@@ -17,7 +17,7 @@ export default function EmptyState() {
         positions will appear here, filterable by location and radius.
       </p>
       <Link to="/firm-signup" className="btn btn-primary">
-        Are you a firm? Post the first project →
+        Are you a firm? Post the first project
       </Link>
     </div>
   );

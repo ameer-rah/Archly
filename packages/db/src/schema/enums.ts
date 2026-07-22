@@ -12,7 +12,6 @@ export const studentDisciplineEnum = pgEnum("student_discipline", [
   "architectural_technology",
   "interior_design",
   "urban_design",
-  "urban_planning",
   "landscape_architecture",
   "construction_management",
   "architectural_engineering",

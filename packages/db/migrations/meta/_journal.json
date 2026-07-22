@@ -8,6 +8,13 @@
       "when": 1784422695596,
       "tag": "0000_windy_genesis",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784681697471,
+      "tag": "0001_curious_owl",
+      "breakpoints": true
     }
   ]
 }

@@ -24,12 +24,13 @@ Current product decisions:
 
 ## Commands
 
-From the repository root:
+From the repository root (this is a pnpm workspace — see the root
+`package.json`'s `packageManager` field and `pnpm-workspace.yaml`, not npm):
 
 ```sh
-npm run typecheck --workspace @archly/db
-npm run build --workspace @archly/db
-npm run db:generate --workspace @archly/db
+pnpm --filter @archly/db typecheck
+pnpm --filter @archly/db build
+pnpm --filter @archly/db db:generate
 ```
 
 Set `DATABASE_URL` in a local `.env` only when a database command requires it.

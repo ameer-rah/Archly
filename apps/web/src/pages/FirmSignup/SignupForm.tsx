@@ -98,7 +98,7 @@ export default function SignupForm() {
         </div>
 
         <button type="submit" className="btn btn-primary fs-submit">
-          Submit for Review →
+          Submit for Review
         </button>
 
         <p className="fs-legal">

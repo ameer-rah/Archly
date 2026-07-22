@@ -100,31 +100,129 @@
   transform: translateY(0);
 }
 
+/* `BlurReveal` — a heavier entrance for a page's one or two most
+   important headings: starts more displaced and visibly out of focus,
+   then settles and sharpens. Longer duration than `.reveal` since
+   blur resolving reads as "in motion" longer than a plain fade. */
+.blur-reveal {
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(36px);
+  transition: opacity 0.9s ease, filter 0.9s ease, transform 0.9s ease;
+}
+
+.blur-reveal-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blur-reveal {
+    filter: none;
+  }
+}
+
+/* Static-rotation "photograph" card — a small tilted accent image
+   with a photo-like border/shadow, inspired by tasteskill.dev's
+   scattered polaroid-style cards. Pass an inline `--tilt` (e.g. "-4deg")
+   per usage to vary the angle; hovering straightens it out.
+   `--tilt-x`/`--tilt-y` are optional (default 0deg, so existing
+   2D-only usages are unaffected) — set them to add the same 3D lean
+   tasteskill.dev's cards have, where perspective foreshortening makes
+   one side of the card read closer than the other, on top of the
+   flat in-plane rotation. */
+.tilt-photo {
+  --tilt: -4deg;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  display: block;
+  border: 6px solid var(--background);
+  border-radius: 4px;
+  box-shadow: 0 16px 32px rgba(22, 35, 58, 0.16);
+  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) rotate(var(--tilt));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tilt-photo:hover {
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotate(0deg) scale(1.03);
+  box-shadow: 0 20px 40px rgba(22, 35, 58, 0.22);
+}
+
+.tilt-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* Slow continuous zoom for hero photos — used by Home's hero image
+   and About's hero image (each page's own CSS sets the animation
+   property and its own `prefers-reduced-motion` override). */
+@keyframes ken-burns-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+/* Button style modeled on tasteskill.dev's CTAs: a taller rounded-pill
+   shape, a soft resting shadow that deepens on hover instead of the
+   button lifting, a slight press-down scale on `:active`, and a
+   trailing arrow that slides right on hover. The arrow is a single
+   `::after` mask image colored with `currentColor`, so it re-colors
+   for free across every variant (white on `.btn-primary`, navy on
+   `.btn-sand`, etc.) without a per-variant icon override. */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 12px 20px;
-  border-radius: var(--radius-sm);
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 16px;
   font-size: 14px;
   font-weight: 600;
   border: 1px solid transparent;
   cursor: default;
-  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease,
+    border-color 0.2s ease;
   white-space: nowrap;
 }
 
-.btn:hover {
-  transform: translateY(-1px);
+.btn::after {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m13 5 7 7-7 7'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m13 5 7 7-7 7'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  transition: transform 0.3s ease-out;
+}
+
+.btn:hover::after {
+  transform: translateX(3px);
+}
+
+.btn:active {
+  transform: scale(0.985);
 }
 
 .btn-primary {
   background: var(--accent);
   color: #fff;
+  box-shadow: 0 10px 24px -8px rgba(44, 84, 144, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
+  box-shadow: 0 14px 32px -8px rgba(44, 84, 144, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 /* Secondary button for sand/white backgrounds: blue border + text. */
@@ -132,13 +230,17 @@
   background: transparent;
   color: var(--accent);
   border-color: var(--accent);
+  box-shadow: 0 3px 10px -2px rgba(22, 35, 58, 0.06);
 }
 
 .btn-outline:hover {
   background: var(--secondary);
+  box-shadow: 0 10px 22px -6px rgba(22, 35, 58, 0.12);
 }
 
-/* Ghost button for sand/white backgrounds (e.g. nav "Log In"): blue text. */
+/* Ghost button for sand/white backgrounds (e.g. nav "Log In"): blue text,
+   no shadow — a transparent-background pill reads better flat, same as
+   tasteskill.dev's own plain nav links. */
 .btn-ghost {
   background: transparent;
   color: var(--accent);
@@ -152,10 +254,12 @@
 .btn-sand {
   background: var(--background);
   color: var(--foreground);
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .btn-sand:hover {
   background: var(--secondary);
+  box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Secondary/outline button for navy/blue backgrounds: sand border + text. */
@@ -167,11 +271,17 @@
 
 .btn-outline-light:hover {
   border-color: var(--background);
+  box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.2);
 }
 
 .btn-sm {
-  padding: 9px 14px;
+  padding: 10px 16px;
   font-size: 13px;
+}
+
+.btn-sm::after {
+  width: 12px;
+  height: 12px;
 }
 
 .tag {
