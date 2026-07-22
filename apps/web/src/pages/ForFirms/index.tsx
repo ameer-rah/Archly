@@ -7,7 +7,6 @@ import Process from "./Process";
 import Coverage from "./Coverage";
 import Pricing from "./Pricing";
 import FAQ from "./FAQ";
-import Contact from "./Contact";
 import "./forfirms.css";
 
 /**
@@ -18,10 +17,20 @@ import "./forfirms.css";
  * Figma layout and copy, but re-colored to the site's established
  * sand + navy + blue palette rather than the Figma frame's older
  * navy/orange treatment, for consistency with Home.
+ *
+ * Dropped the old Contact/"Tell us about your firm" section — it was
+ * an entirely inert (`readOnly`) lead-capture form collecting mostly
+ * the same info as the now-real `/firm-signup` flow. Keeping a fake
+ * dead-end form at the bottom of the page next to real, working
+ * "Sign Up Now" links (Pricing) was worse than not having it: a firm
+ * reading to the end could easily fill it out thinking it was the
+ * real signup. `.forfirms-page` wraps the page so the `Footer` fade
+ * (see `forfirms.css`) can be re-targeted at FAQ's tan background,
+ * now that FAQ is the last section instead of Contact's sand one.
  */
 export default function ForFirms() {
   return (
-    <>
+    <div className="forfirms-page">
       <NavBar />
       <PageTransition>
         <main>
@@ -31,10 +40,9 @@ export default function ForFirms() {
           <Coverage />
           <Pricing />
           <FAQ />
-          <Contact />
         </main>
       </PageTransition>
       <Footer blend />
-    </>
+    </div>
   );
 }

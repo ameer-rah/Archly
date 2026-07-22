@@ -17,6 +17,34 @@
   animation: page-fade-in 0.4s ease;
 }
 
+/* `TiltCard` always wraps its tilting element in this static-perspective
+   frame (see `components/TiltCard.tsx`) instead of combining
+   `perspective(…)` with the rotation in one JS-driven transform on the
+   same element — that combined form is a known Gecko-family trigger
+   (Firefox, Zen, Brave; not reproducible in plain Chromium) for flat
+   children (buttons, text) going unpainted after the tilt animates
+   back to rest on mouseleave. The frame itself needs no size/layout
+   styling — each page's `<Class>.tilt-card` rule (or a per-usage
+   override) still controls actual card sizing; the frame just needs
+   to stretch to match, which flex/grid parents do by default. */
+.tilt-card-frame {
+  perspective: 800px;
+}
+
+/* Belt-and-suspenders, kept alongside the actual fix (each page's
+   `<Class>.tilt-card` rule no longer sets `transform-style:
+   preserve-3d` — that was the real trigger for the Gecko bug above,
+   and none of these cards have children needing independent 3D depth,
+   so dropping it removes the bug class entirely rather than just
+   mitigating it). Without `backface-visibility: visible`, a flat child
+   can still be treated as facing away from the camera at some tilt
+   angles; `will-change: transform` keeps the compositor layer stably
+   promoted instead of being torn down/recreated on every enter/leave. */
+.tilt-card {
+  backface-visibility: visible;
+  will-change: transform;
+}
+
 .blueprint-grid {
   position: relative;
   background-color: var(--foreground);
@@ -241,11 +269,7 @@ a.navbar-link {
 
 .footer {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 40px 80px;
+  padding: 64px 80px 32px;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.55);
   background-color: var(--foreground);
@@ -285,6 +309,17 @@ a.navbar-link {
   pointer-events: none;
 }
 
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 64px;
+  padding-bottom: 48px;
+}
+
+.footer-brand-block {
+  max-width: 280px;
+}
+
 .footer-brand {
   display: flex;
   align-items: center;
@@ -302,7 +337,140 @@ a.navbar-link {
   display: block;
 }
 
-.footer-links {
+.footer-tagline {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.footer-columns {
   display: flex;
-  gap: 24px;
+  gap: 56px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col-title {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer-link {
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-link-inert {
+  cursor: default;
+}
+
+.footer-link-inert:hover {
+  color: inherit;
+}
+
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .footer-top {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-columns {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+}
+
+/* ---------- form fields (shared across contact/waitlist/signup forms) ---------- */
+
+.ff-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ff-field {
+  margin-bottom: 20px;
+}
+
+.ff-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+}
+
+.ff-field-box {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--foreground);
+  box-sizing: border-box;
+}
+
+.ff-field-textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* ---------- numbered process/step cards (shared across process/next-steps sections) ---------- */
+
+.ff-process-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 22px;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.ff-process-card:hover {
+  box-shadow: 0 20px 40px rgba(22, 35, 58, 0.14);
+  border-color: var(--accent);
+}
+
+.ff-process-n {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.ff-process-card h3 {
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+.ff-process-card p {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
 }

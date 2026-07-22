@@ -1,15 +1,9 @@
 ## to do's
 
 **Frontend — apps/web (17 pages total, from scratch, matching Figma + dandy.com/Handshake direction)**
-- [x] Landing Page — `pages/Home/` (hero, how-it-works, our-journey, open-projects, final CTA, footer; scroll reveals, parallax, tilt cards, blueprint textures/blends all built)
-- [x] Firms (marketing) — `pages/ForFirms/` at `/for-firms` (hero, stats, process, coverage, pricing, animated FAQ accordion, contact form; same visual system as Home, all seams blended, real FAQ copy grounded in system-design.md's actual escrow/vetting decisions)
-- [ ] For Students
-- [ ] Browse Projects
+- [ ] For Students - in progress w/ tahi
 - [ ] Project Detail
 - [ ] Student Signup
-- [ ] Firm Signup
-- [ ] Login
-- [ ] Waitlist
 - [ ] Student Dashboard
 - [ ] Student Messages
 - [ ] Student Profile
@@ -18,6 +12,7 @@
 - [ ] Post a Project
 - [ ] Firm Messages
 - [ ] Firm Payments
+- Note: Home, ForFirms, Waitlist, and About each have a genuinely different page structure (split-hero-then-stacked-sections / stacked-centered-sections / persistent two-pane split / stacked-masthead-then-editorial), not the same template re-skinned — worth keeping in mind for the remaining pages so the site doesn't start reading as one template with different copy.
 
 Each new page gets its own folder under `apps/web/src/pages/`, same
 pattern as `pages/Home/` and `pages/ForFirms/`. Shared chrome/utilities
@@ -27,7 +22,8 @@ cross-page CSS (buttons, eyebrow, blueprint-grid, reveal animation,
 nav/footer chrome) lives in `apps/web/src/styles/shared.css` — reuse
 both rather than duplicating per page. Real logo assets (nav + footer
 wordmarks, favicon) are wired in `components/NavBar.tsx`/`Footer.tsx`.
-Button color convention is now systematic: sand/white backgrounds get
+
+Button color convention is systematic: sand/white backgrounds get
 blue buttons (`btn-primary`/`btn-outline`/`btn-ghost`), navy/blue
 backgrounds get sand-colored buttons (`btn-sand`/`btn-outline-light`).
 
@@ -42,15 +38,10 @@ backgrounds get sand-colored buttons (`btn-sand`/`btn-outline-light`).
 - [ ] Messaging
 - [ ] Admin verification queue, waitlist migration off Formspree, analytics/observability wiring
 
-**Mobile — apps/mobile (React Native + Expo, per system-design.md §"Mobile")**
-- [x] Figma designs for the mobile app (Student app + Firm app, 18 screens total, Handshake-inspired: floating pill tab bars, message threads, applicant detail, firm profile) — design only, in the "Mobile" page of the Figma file. No code yet.
-- [ ] Scaffold `apps/mobile` (Expo, TypeScript, shares `packages/db` types + the same Workers API — no duplicated business logic between web and mobile)
-- [ ] Auth (same WorkOS-backed flow as web)
-- [ ] Students/Firms core screens (profile, browse, project detail)
-- [ ] Native maps via `react-native-maps` (Apple Maps on iOS, Google Maps on Android) for the radius/browse search, mirroring the web Leaflet implementation
-- [ ] Messaging
-- [ ] Push notifications
-- [ ] Distribution via Expo EAS (App Store / Google Play)
-
 Per system-design.md's build order, mobile starts only once the API
 contract is stable (step 10) — not in parallel from day one.
+
+### important
+---
+- [ ] need company email to deploy website on cloudflare & get google api's
+- [ ] need company contacts

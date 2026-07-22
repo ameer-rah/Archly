@@ -31,7 +31,7 @@ const STEPS = [
  */
 export default function Process() {
   return (
-    <section className="section ff-process">
+    <section id="process" className="section ff-process">
       <Reveal className="section-head center">
         <p className="eyebrow">SIMPLE BY DESIGN</p>
         <h2>

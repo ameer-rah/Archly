@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Reveal from "../../components/Reveal";
 import TiltCard from "../../components/TiltCard";
 
@@ -68,20 +69,20 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <button
-                type="button"
+              <Link
+                to="/firm-signup"
                 className={`btn ${plan.variant === "primary" ? "btn-sand" : "btn-outline-light"} ff-plan-cta`}
               >
                 Sign Up Now
-              </button>
+              </Link>
             </Reveal>
           </TiltCard>
         ))}
       </div>
 
-      <p className="ff-pricing-footnote">
+      <Link to="/firm-signup" className="ff-pricing-footnote">
         Want to see the full product first? Preview the full firm signup flow →
-      </p>
+      </Link>
     </section>
   );
 }

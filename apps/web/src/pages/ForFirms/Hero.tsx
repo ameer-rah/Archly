@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 /**
  * ForFirms hero (Figma frame `75:3`): full-width navy blueprint panel,
  * single column (unlike Home's split hero — this page has no visual to
@@ -21,12 +23,12 @@ export default function Hero() {
           and ready to contribute to real projects.
         </p>
         <div className="ff-hero-buttons reveal reveal-visible" style={{ transitionDelay: "160ms" }}>
-          <button type="button" className="btn btn-sand">
+          <Link to="/firm-signup" className="btn btn-sand">
             Sign Up &amp; Post a Project
-          </button>
-          <button type="button" className="btn btn-outline-light">
+          </Link>
+          <a href="#process" className="btn btn-outline-light">
             How It Works
-          </button>
+          </a>
         </div>
       </div>
     </section>

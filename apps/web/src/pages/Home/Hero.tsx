@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import useScrollY from "../../components/useScrollY";
 import TiltCard from "../../components/TiltCard";
 
@@ -21,8 +22,9 @@ const CHIPS = [
  *   group upward (capped at 90px) as the user scrolls past the hero, so
  *   the visual recedes rather than scrolling flatly with the page.
  *
- * The two action cards are `TiltCard`s (cursor-tilt on hover); their
- * "Sign Up" buttons are inert.
+ * The two action cards are `TiltCard`s (cursor-tilt on hover). The
+ * pilot card's button links to `/waitlist`; the firm card links to
+ * `/firm-signup`.
  */
 export default function Hero() {
   const visualRef = useRef<HTMLDivElement>(null);
@@ -65,16 +67,16 @@ export default function Hero() {
           <TiltCard className="action-card">
             <h3>Join the Pilot Program</h3>
             <p>Students, be part of our early launch in NYC.</p>
-            <button type="button" className="btn btn-primary btn-sm">
+            <Link to="/waitlist" className="btn btn-primary btn-sm">
               Sign Up →
-            </button>
+            </Link>
           </TiltCard>
           <TiltCard className="action-card">
             <h3>Are You a Firm?</h3>
             <p>Post real projects and start hiring CUNY talent today.</p>
-            <button type="button" className="btn btn-outline btn-sm">
+            <Link to="/firm-signup" className="btn btn-outline btn-sm">
               Sign Up →
-            </button>
+            </Link>
           </TiltCard>
         </div>
 

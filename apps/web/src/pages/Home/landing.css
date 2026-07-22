@@ -68,14 +68,18 @@
   margin-top: 40px;
 }
 
+.hero-cards .tilt-card-frame {
+  flex: 1;
+  max-width: 273px;
+}
+
 .action-card.tilt-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 22px;
-  flex: 1;
-  max-width: 273px;
-  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
   transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
 }
 
@@ -440,7 +444,12 @@
   font-size: 14px;
   color: var(--accent);
   font-weight: 600;
-  cursor: default;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.link-arrow:hover {
+  color: var(--accent-hover);
 }
 
 .empty-state {

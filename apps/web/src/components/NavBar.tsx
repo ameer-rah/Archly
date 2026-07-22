@@ -10,8 +10,8 @@ import "../styles/shared.css";
 const LINKS: { label: string; path?: string }[] = [
   { label: "For Students" },
   { label: "For Firms", path: "/for-firms" },
-  { label: "Browse Projects" },
-  { label: "About" },
+  { label: "Browse Projects", path: "/browse-projects" },
+  { label: "About", path: "/about" },
 ];
 
 /**
@@ -54,12 +54,12 @@ export default function NavBar() {
           )}
         </div>
         <div className="navbar-actions">
-          <button type="button" className="btn btn-ghost">
+          <Link to="/login" className="btn btn-ghost">
             Log In
-          </button>
-          <button type="button" className="btn btn-primary">
+          </Link>
+          <Link to="/waitlist" className="btn btn-primary">
             Join the Pilot
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

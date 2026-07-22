@@ -2,8 +2,7 @@
 
 .ff-process,
 .ff-coverage,
-.ff-faq,
-.ff-contact {
+.ff-faq {
   background-image: repeating-linear-gradient(
       to right,
       rgba(22, 35, 58, 0.05) 0 1px,
@@ -136,39 +135,6 @@
   margin: 64px auto 0;
 }
 
-.ff-process-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 22px;
-  transform-style: preserve-3d;
-  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
-}
-
-.ff-process-card:hover {
-  box-shadow: 0 20px 40px rgba(22, 35, 58, 0.14);
-  border-color: var(--accent);
-}
-
-.ff-process-n {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: 16px;
-}
-
-.ff-process-card h3 {
-  font-size: 16px;
-  margin: 0 0 10px;
-}
-
-.ff-process-card p {
-  font-size: 13px;
-  color: var(--muted-foreground);
-  line-height: 1.6;
-  margin: 0;
-}
 
 /* ---------- coverage ---------- */
 
@@ -312,7 +278,8 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius);
   padding: 36px;
-  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
   transition: transform 0.25s ease-out, border-color 0.25s ease-out;
 }
 
@@ -372,9 +339,15 @@
 }
 
 .ff-pricing-footnote {
+  display: inline-block;
   margin-top: 48px;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.5);
+  transition: color 0.15s ease;
+}
+
+.ff-pricing-footnote:hover {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* ---------- faq ---------- */
@@ -482,83 +455,15 @@
   max-width: 700px;
 }
 
-/* ---------- contact ---------- */
-
-.ff-contact {
-  position: relative;
-  background-color: var(--background);
-  padding-top: 200px;
+/* FAQ is now the last section before the footer (Contact was removed) —
+   the shared `.footer-blend` fade assumes the sand `--background` tone,
+   but FAQ is `--secondary` (tan), so retarget it for this page only. */
+.forfirms-page .footer-blend::before {
+  background: linear-gradient(
+    to bottom,
+    var(--secondary) 0%,
+    var(--accent) 35%,
+    transparent 100%
+  );
 }
 
-.ff-contact > * {
-  position: relative;
-}
-
-.ff-contact::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 140px;
-  background: linear-gradient(to bottom, var(--secondary), transparent);
-  pointer-events: none;
-}
-
-.ff-contact-inner {
-  max-width: 560px;
-  margin: 0 auto;
-}
-
-.ff-contact h2 {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 12px 0 12px;
-}
-
-.ff-contact-copy {
-  color: var(--muted-foreground);
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0 0 32px;
-}
-
-.ff-field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.ff-field {
-  margin-bottom: 20px;
-}
-
-.ff-field-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted-foreground);
-  letter-spacing: 0.04em;
-  margin: 0 0 8px;
-}
-
-.ff-field-box {
-  width: 100%;
-  border: 1px solid var(--border);
-  background: var(--card);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  font-size: 14px;
-  font-family: inherit;
-  color: var(--foreground);
-  box-sizing: border-box;
-}
-
-.ff-field-textarea {
-  min-height: 90px;
-  resize: none;
-}
-
-.ff-contact-submit {
-  margin-top: 12px;
-}

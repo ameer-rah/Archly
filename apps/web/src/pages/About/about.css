@@ -1,0 +1,303 @@
+/* About deliberately breaks from the rest of the site's page formula
+   (navy blueprint hero -> card grid -> navy CTA band) in favor of an
+   editorial layout — but it still keeps the sitewide paper-grid
+   texture on every section, and a fade wherever the background color
+   actually changes. Hero/editorial/media-break/CTA use the tan
+   `--secondary` tone; Values uses the paler `--background` tone —
+   the reverse of ForFirms/Waitlist's usual rhythm, by request. */
+
+.about-hero,
+.about-editorial,
+.about-media-break,
+.about-cta {
+  background-color: var(--secondary);
+}
+
+.about-hero,
+.about-editorial,
+.about-media-break,
+.about-values,
+.about-cta {
+  background-image: repeating-linear-gradient(
+      to right,
+      rgba(22, 35, 58, 0.05) 0 1px,
+      transparent 1px 45px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(22, 35, 58, 0.05) 0 1px,
+      transparent 1px 45px
+    );
+}
+
+/* ---------- hero ---------- */
+
+.about-hero {
+  position: relative;
+  padding: 160px 80px 100px;
+  text-align: center;
+}
+
+.about-hero > * {
+  position: relative;
+}
+
+.about-hero-text {
+  max-width: 640px;
+  margin: 0 auto 48px;
+}
+
+.about-hero-title {
+  color: var(--foreground);
+  font-size: 60px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+
+.about-hero-copy {
+  color: var(--muted-foreground);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.about-hero-media {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ---------- media placeholder (reused for the hero slot + the mid-page break) ---------- */
+
+.about-media-slot {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  border: 1px dashed var(--border);
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--muted-foreground);
+  text-align: center;
+  padding: 24px;
+}
+
+.about-media-slot p {
+  font-size: 13px;
+  margin: 0;
+  max-width: 220px;
+}
+
+.about-media-slot-wide {
+  aspect-ratio: 21 / 9;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about-media-break {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* ---------- editorial text rows ---------- */
+
+.about-editorial-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about-editorial-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 48px;
+  padding: 48px 0;
+  border-top: 1px solid var(--border);
+}
+
+.about-editorial-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.about-editorial-n {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-size: 40px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.about-editorial-text h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0 0 16px;
+  max-width: 560px;
+}
+
+.about-editorial-text p {
+  color: var(--muted-foreground);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 560px;
+}
+
+/* ---------- values list ---------- */
+
+.about-values {
+  position: relative;
+  background-color: var(--background);
+  padding-top: 200px;
+}
+
+.about-values > * {
+  position: relative;
+}
+
+.about-values::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, var(--secondary), transparent);
+  pointer-events: none;
+}
+
+.about-values .section-head {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.about-values .section-head h2 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 12px 0 0;
+}
+
+.about-values-list {
+  max-width: 1000px;
+  margin: 48px auto 0;
+}
+
+.about-values-row {
+  display: grid;
+  grid-template-columns: 64px 260px 1fr;
+  align-items: baseline;
+  gap: 24px;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  transition: padding-left 0.2s ease;
+}
+
+.about-values-row:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.about-values-row:hover {
+  padding-left: 12px;
+}
+
+.about-values-n {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.about-values-row h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.about-values-row p {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---------- closing cta ---------- */
+
+.about-cta {
+  position: relative;
+  padding-top: 200px;
+  padding-bottom: 140px;
+}
+
+.about-cta > * {
+  position: relative;
+}
+
+.about-cta::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, var(--background), transparent);
+  pointer-events: none;
+}
+
+.about-cta-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-cta-inner h2 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 28px;
+}
+
+.about-cta-links {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.about-cta-link {
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.about-cta-link:hover {
+  border-color: var(--accent);
+}
+
+/* CTA ends on --secondary here (not --background, like elsewhere),
+   so the footer's fade-in needs to start from that color instead. */
+.about-page .footer-blend::before {
+  background: linear-gradient(
+    to bottom,
+    var(--secondary) 0%,
+    var(--accent) 55%,
+    transparent 100%
+  );
+}
+
+@media (max-width: 900px) {
+  .about-editorial-row {
+    grid-template-columns: 1fr;
+  }
+
+  .about-values-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
