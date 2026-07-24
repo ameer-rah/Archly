@@ -1,0 +1,586 @@
+/* Cross-page primitives: buttons, labels, blueprint texture, reveal animation,
+   and the site-wide nav/footer chrome. Page-specific styles (hero layout,
+   section-specific cards, etc.) stay in that page's own stylesheet. */
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-fade-in {
+  animation: page-fade-in 0.4s ease;
+}
+
+/* `TiltCard` always wraps its tilting element in this static-perspective
+   frame (see `components/TiltCard.tsx`) instead of combining
+   `perspective(…)` with the rotation in one JS-driven transform on the
+   same element — that combined form is a known Gecko-family trigger
+   (Firefox, Zen, Brave; not reproducible in plain Chromium) for flat
+   children (buttons, text) going unpainted after the tilt animates
+   back to rest on mouseleave. The frame itself needs no size/layout
+   styling — each page's `<Class>.tilt-card` rule (or a per-usage
+   override) still controls actual card sizing; the frame just needs
+   to stretch to match, which flex/grid parents do by default. */
+.tilt-card-frame {
+  perspective: 800px;
+}
+
+/* Belt-and-suspenders, kept alongside the actual fix (each page's
+   `<Class>.tilt-card` rule no longer sets `transform-style:
+   preserve-3d` — that was the real trigger for the Gecko bug above,
+   and none of these cards have children needing independent 3D depth,
+   so dropping it removes the bug class entirely rather than just
+   mitigating it). Without `backface-visibility: visible`, a flat child
+   can still be treated as facing away from the camera at some tilt
+   angles; `will-change: transform` keeps the compositor layer stably
+   promoted instead of being torn down/recreated on every enter/leave. */
+.tilt-card {
+  backface-visibility: visible;
+  will-change: transform;
+}
+
+.blueprint-grid {
+  position: relative;
+  background-color: var(--foreground);
+  background-image: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    );
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 16px;
+}
+
+.eyebrow-light {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.accent-italic {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.section {
+  padding: 100px 80px;
+}
+
+.section-head.center,
+.center {
+  text-align: center;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* `BlurReveal` — a heavier entrance for a page's one or two most
+   important headings: starts more displaced and visibly out of focus,
+   then settles and sharpens. Longer duration than `.reveal` since
+   blur resolving reads as "in motion" longer than a plain fade. */
+.blur-reveal {
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(36px);
+  transition: opacity 0.9s ease, filter 0.9s ease, transform 0.9s ease;
+}
+
+.blur-reveal-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blur-reveal {
+    filter: none;
+  }
+}
+
+/* Static-rotation "photograph" card — a small tilted accent image
+   with a photo-like border/shadow, inspired by tasteskill.dev's
+   scattered polaroid-style cards. Pass an inline `--tilt` (e.g. "-4deg")
+   per usage to vary the angle; hovering straightens it out.
+   `--tilt-x`/`--tilt-y` are optional (default 0deg, so existing
+   2D-only usages are unaffected) — set them to add the same 3D lean
+   tasteskill.dev's cards have, where perspective foreshortening makes
+   one side of the card read closer than the other, on top of the
+   flat in-plane rotation. */
+.tilt-photo {
+  --tilt: -4deg;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  display: block;
+  border: 6px solid var(--background);
+  border-radius: 4px;
+  box-shadow: 0 16px 32px rgba(22, 35, 58, 0.16);
+  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) rotate(var(--tilt));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tilt-photo:hover {
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotate(0deg) scale(1.03);
+  box-shadow: 0 20px 40px rgba(22, 35, 58, 0.22);
+}
+
+.tilt-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* Slow continuous zoom for hero photos — used by Home's hero image
+   and About's hero image (each page's own CSS sets the animation
+   property and its own `prefers-reduced-motion` override). */
+@keyframes ken-burns-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+/* Button style modeled on tasteskill.dev's CTAs: a taller rounded-pill
+   shape, a soft resting shadow that deepens on hover instead of the
+   button lifting, a slight press-down scale on `:active`, and a
+   trailing arrow that slides right on hover. The arrow is a single
+   `::after` mask image colored with `currentColor`, so it re-colors
+   for free across every variant (white on `.btn-primary`, navy on
+   `.btn-sand`, etc.) without a per-variant icon override. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: default;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease,
+    border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn::after {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m13 5 7 7-7 7'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m13 5 7 7-7 7'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  transition: transform 0.3s ease-out;
+}
+
+.btn:hover::after {
+  transform: translateX(3px);
+}
+
+.btn:active {
+  transform: scale(0.985);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 10px 24px -8px rgba(44, 84, 144, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 14px 32px -8px rgba(44, 84, 144, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* Secondary button for sand/white backgrounds: blue border + text. */
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 3px 10px -2px rgba(22, 35, 58, 0.06);
+}
+
+.btn-outline:hover {
+  background: var(--secondary);
+  box-shadow: 0 10px 22px -6px rgba(22, 35, 58, 0.12);
+}
+
+/* Ghost button for sand/white backgrounds (e.g. nav "Log In"): blue text,
+   no shadow — a transparent-background pill reads better flat, same as
+   tasteskill.dev's own plain nav links. */
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+}
+
+.btn-ghost:hover {
+  background: var(--secondary);
+}
+
+/* Filled primary button for navy/blue backgrounds: sand fill, navy text. */
+.btn-sand {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.btn-sand:hover {
+  background: var(--secondary);
+  box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Secondary/outline button for navy/blue backgrounds: sand border + text. */
+.btn-outline-light {
+  background: transparent;
+  color: var(--background);
+  border-color: rgba(250, 246, 236, 0.4);
+}
+
+.btn-outline-light:hover {
+  border-color: var(--background);
+  box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-sm {
+  padding: 10px 16px;
+  font-size: 13px;
+}
+
+.btn-sm::after {
+  width: 12px;
+  height: 12px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--secondary);
+  color: var(--muted-foreground);
+}
+
+.chip {
+  background: var(--secondary);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+/* ---------- navbar ---------- */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(250, 246, 236, 0.6);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-scrolled {
+  background: rgba(250, 246, 236, 0.9);
+  backdrop-filter: blur(14px);
+  border-bottom-color: var(--border);
+  box-shadow: 0 4px 20px rgba(22, 35, 58, 0.05);
+}
+
+.navbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 16px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.navbar-logo {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 32px;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-link {
+  font-size: 14px;
+  color: var(--muted-foreground);
+  cursor: default;
+  transition: color 0.15s ease;
+}
+
+a.navbar-link {
+  cursor: pointer;
+}
+
+.navbar-link:hover {
+  color: var(--foreground);
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  position: relative;
+  padding: 64px 80px 32px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  background-color: var(--foreground);
+  background-image: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.09) 0 1px,
+      transparent 1px 45px
+    );
+}
+
+.footer.footer-blend {
+  padding-top: 140px;
+}
+
+.footer.footer-blend > * {
+  position: relative;
+}
+
+.footer.footer-blend::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    var(--accent) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 64px;
+  padding-bottom: 48px;
+}
+
+.footer-brand-block {
+  max-width: 280px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.footer-logo {
+  height: 42px;
+  width: auto;
+  display: block;
+}
+
+.footer-tagline {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.footer-columns {
+  display: flex;
+  gap: 56px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col-title {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer-link {
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-link-inert {
+  cursor: default;
+}
+
+.footer-link-inert:hover {
+  color: inherit;
+}
+
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .footer-top {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer-columns {
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+}
+
+/* ---------- form fields (shared across contact/waitlist/signup forms) ---------- */
+
+.ff-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ff-field {
+  margin-bottom: 20px;
+}
+
+.ff-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+}
+
+.ff-field-box {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--foreground);
+  box-sizing: border-box;
+}
+
+.ff-field-textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* ---------- numbered process/step cards (shared across process/next-steps sections) ---------- */
+
+.ff-process-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 22px;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.ff-process-card:hover {
+  box-shadow: 0 20px 40px rgba(22, 35, 58, 0.14);
+  border-color: var(--accent);
+}
+
+.ff-process-n {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.ff-process-card h3 {
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+.ff-process-card p {
+  font-size: 13px;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+}

@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../styles/shared.css";
 
-/** Nav link labels, in display order. Inert — not wired to routes yet. */
-const LINKS = ["For Students", "For Firms", "Browse Projects", "About"];
+/**
+ * Nav links, in display order. Only pages that actually exist get a
+ * `path` (and real routing via `<Link>`); the rest stay inert text
+ * until those pages are built.
+ */
+const LINKS: { label: string; path?: string }[] = [
+  { label: "For Students" },
+  { label: "For Firms", path: "/for-firms" },
+  { label: "Browse Projects", path: "/browse-projects" },
+  { label: "About", path: "/about" },
+];
 
 /**
  * Fixed site header shared by every page.
@@ -10,7 +21,8 @@ const LINKS = ["For Students", "For Firms", "Browse Projects", "About"];
  * background (`.navbar-scrolled`) once the page scrolls past 8px, so
  * text stays legible against whatever section is behind it.
  *
- * All links/buttons are visual-only: no `onClick`, no `<Link>` routing.
+ * Buttons stay visual-only (no backend yet), but nav links that point
+ * to a real page use `<Link>` for client-side routing.
  */
 export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,21 +37,29 @@ export default function NavBar() {
   return (
     <nav className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="navbar-inner">
-        <div className="navbar-brand">ARCHLY</div>
+        <Link to="/" className="navbar-brand">
+          <img src="/archly-wordmark.png" alt="Archly" className="navbar-logo" />
+        </Link>
         <div className="navbar-links">
-          {LINKS.map((label) => (
-            <span key={label} className="navbar-link">
-              {label}
-            </span>
-          ))}
+          {LINKS.map(({ label, path }) =>
+            path ? (
+              <Link key={label} to={path} className="navbar-link">
+                {label}
+              </Link>
+            ) : (
+              <span key={label} className="navbar-link">
+                {label}
+              </span>
+            ),
+          )}
         </div>
         <div className="navbar-actions">
-          <button type="button" className="btn btn-ghost">
+          <Link to="/login" className="btn btn-ghost">
             Log In
-          </button>
-          <button type="button" className="btn btn-primary">
+          </Link>
+          <Link to="/waitlist" className="btn btn-primary">
             Join the Pilot
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

@@ -1,0 +1,178 @@
+/* Browse Projects is an app/utility page — plain sand background,
+   no hero/blueprint/gradient-fade treatment. Distinct on purpose from
+   every marketing page's formula. */
+
+.bp-page {
+  background-color: var(--background);
+}
+
+/* ---------- header ---------- */
+
+.bp-header {
+  padding: 160px 80px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bp-title {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.bp-search {
+  max-width: 320px;
+}
+
+/* ---------- body layout ---------- */
+
+.bp-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  padding: 40px 80px 80px;
+}
+
+/* ---------- sidebar ---------- */
+
+.bp-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.bp-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bp-filter-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.bp-filter-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.bp-filter-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.bp-select {
+  width: 100%;
+  cursor: pointer;
+}
+
+.bp-map-placeholder {
+  height: 160px;
+  border-radius: var(--radius-sm);
+  background: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bp-map-radius {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bp-map-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.bp-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.bp-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+
+.bp-filter-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.bp-apply,
+.bp-save {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ---------- empty state ---------- */
+
+.bp-empty {
+  flex: 1;
+  min-width: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.bp-empty h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.bp-empty p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+  max-width: 560px;
+  margin: 0;
+}
+
+.bp-empty .btn {
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .bp-body {
+    flex-direction: column;
+  }
+
+  .bp-sidebar {
+    width: 100%;
+  }
+}

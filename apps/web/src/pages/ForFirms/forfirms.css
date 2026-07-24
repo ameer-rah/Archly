@@ -1,0 +1,504 @@
+/* subtle whole-page blueprint texture, matching Home's sand/tan sections */
+
+.ff-process,
+.ff-coverage,
+.ff-faq {
+  background-image: repeating-linear-gradient(
+      to right,
+      rgba(22, 35, 58, 0.05) 0 1px,
+      transparent 1px 45px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(22, 35, 58, 0.05) 0 1px,
+      transparent 1px 45px
+    );
+}
+
+/* ---------- hero ---------- */
+
+.ff-hero {
+  padding: 200px 80px 120px;
+  display: flex;
+  justify-content: center;
+}
+
+.ff-hero-inner {
+  max-width: 720px;
+  width: 100%;
+}
+
+.ff-hero-title {
+  color: #fff;
+  font-size: 64px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+}
+
+.ff-hero-title .accent-italic {
+  font-size: 1.05em;
+}
+
+.ff-hero-copy {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 540px;
+  margin: 0;
+}
+
+.ff-hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+/* ---------- stats bar ---------- */
+
+.ff-stats {
+  display: flex;
+  padding: 40px 80px;
+}
+
+.ff-stat {
+  flex: 1;
+  padding: 0 24px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.ff-stat:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.ff-stat-value {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.ff-stat-label {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* ---------- process ---------- */
+
+.ff-process {
+  position: relative;
+  background-color: var(--secondary);
+  padding-top: 200px;
+}
+
+.ff-process > * {
+  position: relative;
+}
+
+.ff-process::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(
+    to bottom,
+    var(--foreground) 0%,
+    var(--accent) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.ff-process h2 {
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0 auto;
+  max-width: 560px;
+}
+
+.ff-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1280px;
+  margin: 64px auto 0;
+}
+
+
+/* ---------- coverage ---------- */
+
+.ff-coverage {
+  position: relative;
+  background-color: var(--background);
+  padding-top: 200px;
+}
+
+.ff-coverage > * {
+  position: relative;
+}
+
+.ff-coverage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, var(--secondary), transparent);
+  pointer-events: none;
+}
+
+.ff-coverage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.ff-coverage-left h2 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0 0 20px;
+}
+
+.ff-coverage-copy {
+  color: var(--muted-foreground);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 460px;
+  margin: 0 0 32px;
+}
+
+.ff-borough-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ff-borough-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.ff-borough-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.ff-coverage-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 6 / 5;
+}
+
+.ff-borough-card {
+  position: absolute;
+  animation: borough-float 7s ease-in-out infinite;
+}
+
+.ff-borough-card .tilt-photo {
+  aspect-ratio: 4 / 3;
+}
+
+.ff-borough-card-label {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+@keyframes borough-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-borough-card {
+    animation: none;
+  }
+}
+
+.ff-coverage-label {
+  margin-top: 52px;
+}
+
+.ff-coverage-label-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+/* ---------- pricing ---------- */
+
+.ff-pricing {
+  position: relative;
+  padding: 200px 80px 120px;
+  text-align: center;
+}
+
+.ff-pricing > * {
+  position: relative;
+}
+
+.ff-pricing::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    var(--accent) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.ff-pricing-heading {
+  color: #fff;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0 auto;
+}
+
+.ff-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1280px;
+  margin: 64px auto 0;
+  text-align: left;
+}
+
+.ff-plan-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius);
+  padding: 36px;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.ff-plan-card:hover {
+  border-color: var(--accent);
+}
+
+.ff-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 8px;
+}
+
+.ff-plan-price span:first-child {
+  color: #fff;
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.ff-plan-period {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+}
+
+.ff-plan-note {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  margin: 0 0 24px;
+}
+
+.ff-plan-features {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ff-plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ff-plan-features li span:first-child {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.ff-plan-cta {
+  width: 100%;
+  justify-content: center;
+}
+
+.ff-pricing-footnote {
+  display: inline-block;
+  margin-top: 48px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.15s ease;
+}
+
+.ff-pricing-footnote:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ---------- faq ---------- */
+
+.ff-faq {
+  position: relative;
+  background-color: var(--secondary);
+  padding-top: 200px;
+}
+
+.ff-faq > * {
+  position: relative;
+}
+
+.ff-faq::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(
+    to bottom,
+    var(--foreground) 0%,
+    var(--accent) 35%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.ff-faq-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.ff-faq h2 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 12px 0 0;
+}
+
+.ff-faq-list {
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.ff-faq-item {
+  border-bottom: 1px solid var(--border);
+}
+
+.ff-faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--foreground);
+  transition: color 0.2s ease;
+}
+
+.ff-faq-question:hover {
+  color: var(--accent);
+}
+
+.ff-faq-toggle {
+  font-size: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.ff-faq-toggle-open {
+  transform: rotate(45deg);
+}
+
+.ff-faq-answer-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ff-faq-answer-wrap-open {
+  grid-template-rows: 1fr;
+}
+
+.ff-faq-answer-inner {
+  overflow: hidden;
+}
+
+.ff-faq-answer {
+  font-size: 14px;
+  color: var(--muted-foreground);
+  line-height: 1.7;
+  margin: 0 0 24px;
+  max-width: 700px;
+}
+
+/* FAQ is now the last section before the footer (Contact was removed) —
+   the shared `.footer-blend` fade assumes the sand `--background` tone,
+   but FAQ is `--secondary` (tan), so retarget it for this page only. */
+.forfirms-page .footer-blend::before {
+  background: linear-gradient(
+    to bottom,
+    var(--secondary) 0%,
+    var(--accent) 35%,
+    transparent 100%
+  );
+}
+
